@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "node-co2-monitor": "^0.2.1",
-    "npm": "^6.9.0"
+    "npm": "^6.9.0",
+    "usb": "^1.6.2"
   },
   "license": "copyleft-next-0.3.1",
   "name": "co2",
