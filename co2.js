@@ -1,23 +1,16 @@
+/**
+ *   Copyright (C) 2023  Kuno Woudt <kuno@frob.nl>
+ *
+ *   This program is free software: you can redistribute it and/or modify
+ *   it under the terms of copyleft-next 0.3.1.  See copyleft-next-0.3.1.txt.
+ *
+ *   SPDX-License-Identifier: copyleft-next-0.3.1
+ */
 
 'use strict';
 
 const path = require('path');
 const CO2Monitor = require('node-co2-monitor');
-
-function saveValues(temp, co2) {
-    const d = new Date();
-
-    const today = new Date().toISOString().split('T')[0];
-    const todayLog = __dirname + '/logs/' + today + '.log';
-    const latestLog = __dirname + '/logs/latest.log';
-
-    const fs = require('fs');
-
-    const output = [ d.toISOString(), temp, co2 ].join(", ") + "\n";
-
-    fs.appendFileSync(todayLog, output);
-    fs.writeFileSync(latestLog, output);
-}
 
 function measure() {
     return new Promise((resolve, reject) => {
@@ -30,7 +23,7 @@ function measure() {
 
             // Disconnect device
             monitor.disconnect(() => {
-                console.log('Monitor disconnected.');
+                console.error('Monitor disconnected.');
                 process.exit(0);
             });
         });
@@ -44,7 +37,7 @@ function measure() {
             // Read data from CO2 monitor.
             monitor.transfer();
 
-            console.log('Reading from CO2 monitor...');
+            console.error('Reading from CO2 monitor...');
 
             resolve(Promise.all([
                 new Promise(t => monitor.on('temp', t)),
@@ -60,15 +53,19 @@ function measure() {
 }
 
 measure().then(results => {
-    saveValues(results.temperature, results.co2);
+    const now = new Date();
 
-    console.log('temp is ', results.temperature);
-    console.log('co2  is ', results.co2);
+    const output = {
+        time: now.toISOString(),
+        co2: { value: results.co2, unit: "ppm", html: "CO<sub>2</sub>" },
+        temperature: { value: results.temperature, unit: "°C", html: "Temp" }
+    };
 
-    console.log("exiting...");
+    console.log(JSON.stringify(output));
+
     process.exit(0);
 }).catch(err => {
-    console.log("ERROR:", err);
+    console.error("ERROR:", err);
 });
 
 
