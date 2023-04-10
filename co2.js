@@ -9,6 +9,7 @@
 
 'use strict';
 
+const os = require('os');
 const path = require('path');
 const CO2Monitor = require('node-co2-monitor');
 
@@ -57,6 +58,7 @@ measure().then(results => {
 
     const output = {
         time: now.toISOString(),
+        host: os.hostname(),
         co2: { value: results.co2, unit: "ppm", html: "CO<sub>2</sub>" },
         temperature: { value: results.temperature, unit: "°C", html: "Temp" }
     };
@@ -67,6 +69,3 @@ measure().then(results => {
 }).catch(err => {
     console.error("ERROR:", err);
 });
-
-
-

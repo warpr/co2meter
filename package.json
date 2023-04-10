@@ -6,7 +6,7 @@
   },
   "license": "copyleft-next-0.3.1",
   "name": "co2",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Read and log co2meter values",
   "main": "co2.js",
   "devDependencies": {},

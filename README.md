@@ -11,7 +11,7 @@ into mosquitto_pub.
 Usage
 -----
 
-    sudo node ./co2.js | mosquitto_pub -t wurk/co2 -l
+    sudo node ./co2.js | mosquitto_pub -t wurk/office/co2 -l
 
 
 Open-source, not open-contribution
@@ -31,7 +31,7 @@ compromise this.
 License
 =======
 
-Copyright 2020,2021 Kuno Woudt <kuno@frob.nl>
+Copyright 2023 Kuno Woudt <kuno@frob.nl>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of copyleft-next 0.3.1. See
