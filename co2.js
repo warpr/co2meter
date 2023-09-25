@@ -56,8 +56,20 @@ function measure() {
 measure().then(results => {
     const now = new Date();
 
+    let status = 'ok';
+    if (!results.co2) {
+        status = 'pending';
+    } else if (results.co2 > 2000) {
+        status = 'failed';
+    } else if (results.co2 > 1000) {
+        status = 'warning';
+    }
+
     const output = {
-        time: now.toISOString(),
+        status: status,
+        title: 'Air quality: CO2',
+        title_html: 'Air quality: CO<sub>2</sub>',
+        updated_at: now.toISOString(),
         host: os.hostname(),
         co2: { value: results.co2, unit: "ppm", html: "CO<sub>2</sub>" },
         temperature: { value: results.temperature, unit: "°C", html: "Temp" }
